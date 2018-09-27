@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:extVC="clr-namespace:MobileApp.ExtendedViewControls"
+          xmlns:vm="clr-namespace:MobileApp.ViewModels.Catalog"
+          x:Class="MobileApp.Views.Catalog.CatalogItemVC">
+
+    <ViewCell.BindingContext>
+        <vm:CatalogItemVM />
+    </ViewCell.BindingContext>
+    
+    <ViewCell.View>
+
+        <extVC:ExtendedGrid Padding="16,8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="6*" />
+            </Grid.ColumnDefinitions>
+
+            <Image Source="{Binding Image}"
+                   Aspect="AspectFit"
+                   BackgroundColor="Gray"
+                   />
+
+            <extVC:ExtendedGrid Grid.Column="1"
+                                Padding="8,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0"
+                       Grid.ColumnSpan="2"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                       Text="{Binding Title}"
+                       TextColor="Black"
+                       LineBreakMode="TailTruncation" />
+
+                <Label Grid.Row="1"
+                       Grid.ColumnSpan="2"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                       Text="{Binding Description}"
+                       TextColor="Black"
+                       LineBreakMode="TailTruncation" />
+
+                <Label Grid.Row="2"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                       Text="{Binding MainPrice}"
+                       TextColor="Black"
+                       LineBreakMode="TailTruncation" />
+
+                <Label Grid.Row="3"
+                       Grid.Column="1"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"
+                       Text="{Binding SubPrice}"
+                       TextColor="Black"
+                       LineBreakMode="TailTruncation" />
+
+            </extVC:ExtendedGrid>
+
+        </extVC:ExtendedGrid>
+        
+    </ViewCell.View>
+    
+</ViewCell>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<extVC:ExtendedContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                           xmlns:baseVC="clr-namespace:MobileApp.BaseViewControls"
+                           xmlns:extVC="clr-namespace:MobileApp.ExtendedViewControls"
+                           xmlns:vm="clr-namespace:MobileApp.ViewModels.Catalog"
+                           xmlns:templates="clr-namespace:MobileApp.Views.Catalog"
+                           x:Class="MobileApp.Views.Catalog.CatalogPage"
+                           NavigationPage.HasNavigationBar="False">
+
+    <extVC:ExtendedContentPage.BindingContext>
+        <vm:CatalogVM />
+    </extVC:ExtendedContentPage.BindingContext>
+
+    <extVC:ExtendedContentPage.Content>
+        <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            
+            <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
+                         Spacing="0">
+
+                <extVC:ExtendedSearchBar x:Name="CatalogSearchBar"
+                                         HeightRequest="50"
+                                         Text="{Binding SearchProductText}"
+                                         SearchCommand="{Binding SearchProductCommand}"
+                                         SearchCommandParameter="{Binding SearchProductText}"
+                                         />
+
+                <extVC:ExtendedListView x:Name="CatalogListView"
+                                        SeparatorVisibility="Default"
+                                        HasUnevenRows="False"
+                                        RowHeight="150"
+                                        ItemsSource="{Binding CatalogItems}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <templates:CatalogItemVC />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </extVC:ExtendedListView>
+                
+            </StackLayout>
+
+            <baseVC:BaseActivityIndicator />
+
+        </AbsoluteLayout>
+    </extVC:ExtendedContentPage.Content>
+    
+</extVC:ExtendedContentPage>
