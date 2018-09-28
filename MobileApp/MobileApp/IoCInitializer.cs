@@ -38,17 +38,18 @@ namespace MobileApp
 
         private static void InitServices()
         {
-            _builder.RegisterInstance<INavigationService>(new ViewNavigationService());
+            _builder.RegisterType<ViewNavigationService>().As<INavigationService>();
         }
 
         private static void InitRepositories()
         {
-            _builder.RegisterInstance<IProductsRepository>(new ProductsRepository());
+            _builder.RegisterType<ProductsRepository>().As<IProductsRepository>();
         }
 
         private static void InitViewModels()
         {
             _builder.RegisterType<CatalogVM>().AsSelf();
+            _builder.RegisterType<CatalogItemVM>().AsSelf();
         }
 
         private static void InitPages()
@@ -58,7 +59,7 @@ namespace MobileApp
         
         public static async Task SetMainPage(PageEnum pageKey)
         {
-            App.Current.MainPage = (_navigationService as ViewNavigationService)?.SetRootPage(pageKey);
+            App.Current.MainPage = _navigationService.SetRootPage(pageKey);
         }
     }
 }

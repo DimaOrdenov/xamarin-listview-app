@@ -12,9 +12,8 @@ namespace MobileApp.ViewModels.Catalog
     {
         private Product _product;
 
-        public CatalogItemVM(Product product, INavigationService navigationService) : base(navigationService)
+        public CatalogItemVM()
         {
-            _product = product;
         }
 
         public Product Product

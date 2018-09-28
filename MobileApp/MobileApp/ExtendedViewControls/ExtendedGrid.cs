@@ -7,7 +7,7 @@ namespace MobileApp.ExtendedViewControls
 {
     public class ExtendedGrid : Grid
     {
-        public ExtendedGrid() : base()
+        public ExtendedGrid()
         {
             RowSpacing = 0;
             ColumnSpacing = 0;

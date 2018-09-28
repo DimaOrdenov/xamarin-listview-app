@@ -8,11 +8,5 @@ namespace MobileApp.ViewModels.Common
 {
     public class BaseVM : NotifyPropertyChangedVM
     {
-        protected INavigationService NavigationService;
-
-        public BaseVM(INavigationService navigationService)
-        {
-            NavigationService = navigationService;
-        }
     }
 }

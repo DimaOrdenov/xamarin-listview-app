@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace MobileApp.Interfaces
 {
@@ -16,5 +17,6 @@ namespace MobileApp.Interfaces
         Task NavigateModalAsync(PageEnum pageKey, object parameter, bool animated = true);
         Task NavigateAsync(PageEnum pageKey, bool animated = true);
         Task NavigateAsync(PageEnum pageKey, object parameter, bool animated = true);
+        Page SetRootPage(PageEnum pageKey);
     }
 }

@@ -7,9 +7,5 @@ namespace MobileApp.ViewModels.Common
 {
     public class ViewCellVM : BaseVM
     {
-        public ViewCellVM(INavigationService navigationService) : base(navigationService)
-        {
-
-        }
     }
 }

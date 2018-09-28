@@ -9,7 +9,19 @@ namespace MobileApp.Core.Helpers
     {
         public static T Clone<T>(this T obj)
         {
-            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj));
+            try
+            {
+                var serialzed = JsonConvert.SerializeObject(obj);
+                var deserialized = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj));
+
+                return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj));
+            }
+            catch (Exception e)
+            {
+                DebugHelper.Log(e);
+
+                return default(T);
+            }
         }
     }
 }

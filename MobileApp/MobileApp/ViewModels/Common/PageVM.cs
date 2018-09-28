@@ -12,7 +12,9 @@ namespace MobileApp.ViewModels.Common
         private bool _isLoading = false;
         private bool _isBusy = false;
 
-        public PageVM(INavigationService navigationService) : base(navigationService)
+        protected INavigationService NavigationService;
+
+        public PageVM(INavigationService navigationService)
         {
             // Always start with loading animation
             IsLoading = true;
@@ -24,23 +26,10 @@ namespace MobileApp.ViewModels.Common
             set
             {
                 _isLoading = value;
+                IsBusy = value;
+
                 OnPropertyChanged();
             }
-        }
-
-        public virtual void Subscribe() { }
-
-        public virtual void OnAppearing() { }
-
-        public virtual void OnDisappearing() { }
-
-        public virtual void OnBackButtonPressed() { }
-
-        public virtual void OnPopped(Page page) { }
-
-        public virtual Task OnNavigated(object parameter)
-        {
-            return Task.Run(() => { });
         }
 
         public bool IsBusy
@@ -51,6 +40,22 @@ namespace MobileApp.ViewModels.Common
                 _isBusy = value;
                 OnPropertyChanged();
             }
+        }
+
+        public virtual void OnAppearing()
+        {
+            IsLoading = true;
+        }
+
+        public virtual void OnDisappearing() { }
+
+        public virtual void OnBackButtonPressed() { }
+
+        public virtual void OnPopped(Page page) { }
+
+        public virtual Task OnNavigated(object parameter)
+        {
+            return Task.Run(() => { });
         }
     }
 }

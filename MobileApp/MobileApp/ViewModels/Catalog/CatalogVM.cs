@@ -1,5 +1,4 @@
-﻿using MobileApp.Core.Debug;
-using MobileApp.Models;
+﻿using MobileApp.Models;
 using MobileApp.ViewModels.Common;
 using System;
 using System.Linq;
@@ -27,11 +26,6 @@ namespace MobileApp.ViewModels.Catalog
         public CatalogVM(INavigationService navigationService, IProductsRepository productsRepository) : base(navigationService)
         {
             _productsRepository = productsRepository;
-
-            LoadData().ContinueWith((task) =>
-            {
-                IsLoading = false;
-            });
         }
 
         public ObservableCollection<CatalogItemVM> CatalogItems
@@ -65,7 +59,7 @@ namespace MobileApp.ViewModels.Catalog
                 {
                     IsLoading = true;
 #if DEBUG
-                    Debug.Log(obj);
+                    DebugHelper.Log(obj);
 #endif
                     if (string.IsNullOrEmpty(obj))
                     {
@@ -82,6 +76,16 @@ namespace MobileApp.ViewModels.Catalog
                     IsLoading = false;
                 });
             }
+        }
+
+        public override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            LoadData().ContinueWith((task) =>
+            {
+                IsLoading = false;
+            });
         }
 
         private async Task LoadData()
@@ -111,21 +115,14 @@ namespace MobileApp.ViewModels.Catalog
                     SubPrice = "8000 р."
                 };
 
-                CommonServiceLocator.ServiceLocator.Current.
-
                 _catalogItemsLoaded = new ObservableCollection<CatalogItemVM>
                 {
-                    new CatalogItemVM(mockProduct1),
-                    new CatalogItemVM(mockProduct2),
-                    new CatalogItemVM(mockProduct2),
-                    new CatalogItemVM(mockProduct2),
-                    new CatalogItemVM(mockProduct2),
-                    new CatalogItemVM(mockProduct2),
+                    new CatalogItemVM { Product = mockProduct1 },
                 };
 
-                _catalogItemsLoaded = new ObservableCollection<CatalogItemVM>((await _productsRepository.GetProductList()).Value.Select(x => new CatalogItemVM(x)));
+                //_catalogItemsLoaded = new ObservableCollection<CatalogItemVM>((await _productsRepository.GetProductList()).Value.Select(x => new CatalogItemVM(x)));
 
-                CatalogItems = _catalogItemsLoaded.Clone();
+                CatalogItems = _catalogItemsLoaded;
 
                 IsLoading = false;
             });

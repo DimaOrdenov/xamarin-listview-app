@@ -8,7 +8,7 @@ namespace MobileApp.ExtendedViewControls
 {
     public class ExtendedSearchBar : SearchBar
     {
-        public ExtendedSearchBar() : base()
+        public ExtendedSearchBar()
         {
             Placeholder = "Поиск";
         }

@@ -1,4 +1,5 @@
-﻿using MobileApp.Interfaces;
+﻿using MobileApp.ExtendedViewControls;
+using MobileApp.Interfaces;
 using MobileApp.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,8 @@ namespace MobileApp.Services
     {
         private readonly object _sync = new object();
         private readonly Dictionary<PageEnum, Type> _pagesByKey = new Dictionary<PageEnum, Type>();
-        private readonly Stack<NavigationPage> _navigationPageStack = new Stack<NavigationPage>();
-        private NavigationPage CurrentNavigationPage => _navigationPageStack.Peek();
+        private readonly Stack<ExtendedNavigationPage> _navigationPageStack = new Stack<ExtendedNavigationPage>();
+        private ExtendedNavigationPage CurrentNavigationPage => _navigationPageStack.Peek();
 
         public void Configure(PageEnum pageKey, Type pageType)
         {
@@ -38,7 +39,7 @@ namespace MobileApp.Services
 
             _navigationPageStack.Clear();
 
-            var mainPage = new NavigationPage(rootPage);
+            var mainPage = new ExtendedNavigationPage(rootPage);
 
             _navigationPageStack.Push(mainPage);
 
@@ -96,9 +97,9 @@ namespace MobileApp.Services
         {
             var page = GetPage(pageKey, parameter);
 
-            NavigationPage.SetHasNavigationBar(page, false);
+            ExtendedNavigationPage.SetHasNavigationBar(page, false);
 
-            var modalNavigationPage = new NavigationPage(page);
+            var modalNavigationPage = new ExtendedNavigationPage(page);
 
             await CurrentNavigationPage.Navigation.PushModalAsync(modalNavigationPage, animated);
 

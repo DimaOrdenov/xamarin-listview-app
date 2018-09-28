@@ -3,12 +3,9 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           xmlns:extVC="clr-namespace:MobileApp.ExtendedViewControls"
           xmlns:vm="clr-namespace:MobileApp.ViewModels.Catalog"
-          x:Class="MobileApp.Views.Catalog.CatalogItemVC">
+          x:Class="MobileApp.Views.Catalog.CatalogItemVC"
+          BindingContext="{Binding CatalogItemViewModel, Source={StaticResource VMLocator}}">
 
-    <ViewCell.BindingContext>
-        <vm:CatalogItemVM />
-    </ViewCell.BindingContext>
-    
     <ViewCell.View>
 
         <extVC:ExtendedGrid Padding="16,8">

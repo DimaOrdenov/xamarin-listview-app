@@ -1,5 +1,6 @@
 ﻿using MobileApp.Core.Helpers;
 using MobileApp.Models.Common;
+using MobileApp.Repository.DataProvider.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace MobileApp.Repository.Base
 
         public BaseRepository(string baseUrl = "default", string entity = null)
         {
-            _client = new HttpClient();
+            _client = new HttpClient(new ExtendedHttpClientHandler());
             _client.DefaultRequestHeaders.Add("If-Modified-Since", DateTime.UtcNow.ToString("r")); //Disable caching
 
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

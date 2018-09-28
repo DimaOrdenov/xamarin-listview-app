@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using MobileApp.ViewModels.Catalog;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,12 +10,23 @@ namespace MobileApp.ViewModels
     {
         static ViewModelLocator()
         {
-            Bootstrapper.Initialize();
+            Core.Helpers.DebugHelper.Log("Initialized VM locator");
         }
 
-        public MainPageViewModel Main
+        public CatalogVM CatalogViewModel
         {
-            get { return ServiceLocator.Current.GetInstance<MainPageViewModel>(); }
+            get
+            {
+                return ServiceLocator.Current.GetInstance<CatalogVM>();
+            }
+        }
+
+        public CatalogItemVM CatalogItemViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<CatalogItemVM>();
+            }
         }
     }
 }

@@ -1,18 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<extVC:ExtendedContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                           xmlns:baseVC="clr-namespace:MobileApp.BaseViewControls"
-                           xmlns:extVC="clr-namespace:MobileApp.ExtendedViewControls"
-                           xmlns:vm="clr-namespace:MobileApp.ViewModels.Catalog"
-                           xmlns:templates="clr-namespace:MobileApp.Views.Catalog"
-                           x:Class="MobileApp.Views.Catalog.CatalogPage"
-                           NavigationPage.HasNavigationBar="False">
+<basePage:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:baseVC="clr-namespace:MobileApp.BaseViewControls"
+                   xmlns:extVC="clr-namespace:MobileApp.ExtendedViewControls"
+                   xmlns:basePage="clr-namespace:MobileApp.Views.Base"
+                   xmlns:templates="clr-namespace:MobileApp.Views.Catalog"
+                   x:Class="MobileApp.Views.Catalog.CatalogPage"
+                   BindingContext="{Binding CatalogViewModel, Source={StaticResource VMLocator}}">
 
-    <extVC:ExtendedContentPage.BindingContext>
-        <vm:CatalogVM />
-    </extVC:ExtendedContentPage.BindingContext>
-
-    <extVC:ExtendedContentPage.Content>
+    <basePage:BasePage.Content>
         <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             
             <StackLayout AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -31,11 +27,11 @@
                                         RowHeight="150"
                                         ItemsSource="{Binding CatalogItems}">
 
-                    <ListView.ItemTemplate>
+                    <extVC:ExtendedListView.ItemTemplate>
                         <DataTemplate>
                             <templates:CatalogItemVC />
                         </DataTemplate>
-                    </ListView.ItemTemplate>
+                    </extVC:ExtendedListView.ItemTemplate>
                 </extVC:ExtendedListView>
                 
             </StackLayout>
@@ -43,6 +39,6 @@
             <baseVC:BaseActivityIndicator />
 
         </AbsoluteLayout>
-    </extVC:ExtendedContentPage.Content>
+    </basePage:BasePage.Content>
     
-</extVC:ExtendedContentPage>
+</basePage:BasePage>

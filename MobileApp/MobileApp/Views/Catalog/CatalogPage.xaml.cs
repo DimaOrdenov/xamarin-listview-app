@@ -1,4 +1,5 @@
 ﻿using MobileApp.ExtendedViewControls;
+using MobileApp.Views.Base;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,9 +12,9 @@ using Xamarin.Forms.Xaml;
 namespace MobileApp.Views.Catalog
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CatalogPage : ExtendedContentPage
+    public partial class CatalogPage : BasePage
     {
-        public CatalogPage() : base()
+        public CatalogPage()
         {
             InitializeComponent();
         }
