@@ -57,7 +57,7 @@ namespace MobileApp
             _navigationService.Configure(PageEnum.CatalogPage, typeof(Views.Catalog.CatalogPage));
         }
         
-        public static async Task SetMainPage(PageEnum pageKey)
+        public static void SetMainPage(PageEnum pageKey)
         {
             App.Current.MainPage = _navigationService.SetRootPage(pageKey);
         }

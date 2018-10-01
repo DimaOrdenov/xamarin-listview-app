@@ -6,6 +6,6 @@ namespace MobileApp
 {
     public static class Config
     {
-        public static string BaseUrl = "http://localhost:3000";
+        public static string BaseUrl = "https://jsonserver.localtunnel.me";
     }
 }

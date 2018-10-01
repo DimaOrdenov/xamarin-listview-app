@@ -25,10 +25,9 @@
             <extVC:ExtendedGrid Grid.Column="1"
                                 Padding="8,0,0,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -55,7 +54,7 @@
                        TextColor="Black"
                        LineBreakMode="TailTruncation" />
 
-                <Label Grid.Row="3"
+                <Label Grid.Row="2"
                        Grid.Column="1"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"
                        Text="{Binding SubPrice}"
