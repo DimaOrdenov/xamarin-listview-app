@@ -15,6 +15,7 @@ namespace MobileApp.Repository.DataProvider.Http
             Guid guid = Guid.NewGuid();
             string requestBody = "null";
             string contentHeader = "";
+            HttpResponseMessage response = new HttpResponseMessage();
 
             try
             {
@@ -33,19 +34,12 @@ namespace MobileApp.Repository.DataProvider.Http
                     contentHeader,
                     requestBody,
                     DateTime.Now));
-            }
-            catch (Exception e)
-            {
-                DebugHelper.Log(e.ToString());
-            }
 
-            long date = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-            HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
-            long requestTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - date;
-            string responseBody = "null";
+                long date = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+                response = await base.SendAsync(request, cancellationToken);
+                long requestTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond - date;
+                string responseBody = "null";
 
-            try
-            {
                 if (response.Content != null)
                 {
                     responseBody = await response.Content.ReadAsStringAsync();

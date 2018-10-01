@@ -45,8 +45,7 @@
                        Grid.ColumnSpan="2"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
                        Text="{Binding Description}"
-                       TextColor="Black"
-                       LineBreakMode="TailTruncation" />
+                       TextColor="Black" />
 
                 <Label Grid.Row="2"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
