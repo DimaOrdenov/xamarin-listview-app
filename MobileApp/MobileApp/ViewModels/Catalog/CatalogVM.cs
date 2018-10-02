@@ -58,9 +58,9 @@ namespace MobileApp.ViewModels.Catalog
                 return new Command<string>(async (obj) =>
                 {
                     IsLoading = true;
-#if DEBUG
+
                     DebugHelper.Log(obj);
-#endif
+
                     //if (string.IsNullOrEmpty(obj))
                     //{
                     //    CatalogItems = _catalogItemsLoaded.Clone();
@@ -73,10 +73,15 @@ namespace MobileApp.ViewModels.Catalog
                     //        ?? new List<CatalogItemVM>());
                     //}
 
-                    CatalogItems = new ObservableCollection<CatalogItemVM>(_catalogItemsLoaded?.Where(product =>
-                            product.Product?.Title?.ToLower()?.Contains(obj) == true ||
-                            product.Product?.Description?.ToLower()?.Contains(obj) == true)
-                            ?? new List<CatalogItemVM>());
+                    //CatalogItems = new ObservableCollection<CatalogItemVM>(_catalogItemsLoaded?.Where(product =>
+                    //        product.Product?.Title?.ToLower()?.Contains(obj) == true ||
+                    //        product.Product?.Description?.ToLower()?.Contains(obj) == true)
+                    //        ?? new List<CatalogItemVM>());
+
+                    Dictionary<string, string> filters = new Dictionary<string, string> { { "q", obj } };
+
+                    CatalogItems = new ObservableCollection<CatalogItemVM>(
+                        (await _productsRepository.GetProductList(filters))?.Value?.Select(x => new CatalogItemVM() { Product = x }));
 
                     IsLoading = false;
                 });

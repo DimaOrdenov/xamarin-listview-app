@@ -20,9 +20,9 @@ namespace MobileApp.Repository
             return await Get<Product>(id.ToString());
         }
 
-        public async Task<Result<IList<Product>>> GetProductList()
+        public async Task<Result<IList<Product>>> GetProductList(Dictionary<string, string> filters = null)
         {
-            return await GetList<Product>();
+            return await GetList<Product>(parameters: filters);
         }
     }
 }

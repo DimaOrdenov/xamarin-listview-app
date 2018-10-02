@@ -17,8 +17,8 @@ namespace MobileApp.Views.Base
 		{
 			InitializeComponent ();
 
-            NavigationPage.SetHasNavigationBar(this, false);
-            NavigationPage.SetBackButtonTitle(this, "");
+            //NavigationPage.SetHasNavigationBar(this, false);
+            //NavigationPage.SetBackButtonTitle(this, "");
 
             SetBinding(IsBusyProperty, new Binding("IsBusy"));
         }
