@@ -53,7 +53,7 @@ namespace MobileApp.Repository.Base
                 return new Result<TOutbound>
                 {
                     Success = true,
-                    Value = JsonConvert.DeserializeObject<TOutbound>(await result.Content.ReadAsStringAsync())
+                    Value = DeserializeJsonString<TOutbound>(await result.Content.ReadAsStringAsync())
                 };
             }
             else
@@ -80,7 +80,7 @@ namespace MobileApp.Repository.Base
                 return new Result<TOutbound>
                 {
                     Success = true,
-                    Value = JsonConvert.DeserializeObject<TOutbound>(await result.Content.ReadAsStringAsync())
+                    Value = DeserializeJsonString<TOutbound>(await result.Content.ReadAsStringAsync())
                 };
             }
             else
@@ -114,7 +114,7 @@ namespace MobileApp.Repository.Base
                 return new Result<IList<TOutbound>>
                 {
                     Success = true,
-                    Value = JsonConvert.DeserializeObject<IList<TOutbound>>(await result.Content.ReadAsStringAsync())
+                    Value = DeserializeJsonString<IList<TOutbound>>(await result.Content.ReadAsStringAsync())
                 };
             }
             else
@@ -148,7 +148,7 @@ namespace MobileApp.Repository.Base
                 return new Result<TOutbound>
                 {
                     Success = true,
-                    Value = JsonConvert.DeserializeObject<TOutbound>(await result.Content.ReadAsStringAsync())
+                    Value = DeserializeJsonString<TOutbound>(await result.Content.ReadAsStringAsync())
                 };
             }
             else
@@ -194,6 +194,20 @@ namespace MobileApp.Repository.Base
                 };
 
                 return error;
+            }
+        }
+
+        private T DeserializeJsonString<T>(string json)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+            catch (Exception e)
+            {
+                DebugHelper.Log(e);
+
+                return default(T);
             }
         }
     }

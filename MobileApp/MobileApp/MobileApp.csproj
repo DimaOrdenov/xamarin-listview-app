@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Interfaces\" />
     <Folder Include="Views\Common\" />
   </ItemGroup>
 </Project>
