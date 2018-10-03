@@ -1,5 +1,4 @@
-﻿using MobileApp.Interfaces;
-using MobileApp.Models;
+﻿using MobileApp.Models.DTO;
 using MobileApp.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -10,13 +9,13 @@ namespace MobileApp.ViewModels.Catalog
 {
     public class CatalogItemVM : ViewCellVM
     {
-        private Product _product;
+        private ProductDTO _product;
 
         public CatalogItemVM()
         {
         }
 
-        public Product Product
+        public ProductDTO Product
         {
             get { return _product; }
             set
@@ -26,8 +25,8 @@ namespace MobileApp.ViewModels.Catalog
                 OnPropertyChanged("Image");
                 OnPropertyChanged("Title");
                 OnPropertyChanged("Description");
-                OnPropertyChanged("MainPrice");
-                OnPropertyChanged("SubPrice");
+                OnPropertyChanged("Price");
+                OnPropertyChanged("RetailPrice");
             }
         }
 
@@ -35,17 +34,7 @@ namespace MobileApp.ViewModels.Catalog
         {
             get
             {
-                if (!string.IsNullOrEmpty(_product?.Image))
-                {
-                    return ImageSource.FromFile(_product?.Image);
-                }
-
-                if (_product?.ImageUri != null)
-                {
-                    return ImageSource.FromUri(_product?.ImageUri);
-                }
-
-                return null;
+                return _product?.ImageSource;
             }
         }
 
@@ -59,14 +48,14 @@ namespace MobileApp.ViewModels.Catalog
             get { return _product?.Description; }
         }
 
-        public string MainPrice
+        public string Price
         {
-            get { return _product?.MainPrice; }
+            get { return _product?.Price?.FormattedString; }
         }
 
-        public string SubPrice
+        public string RetailPrice
         {
-            get { return _product?.SubPrice; }
+            get { return _product?.RetailPrice?.FormattedString; }
         }
     }
 }

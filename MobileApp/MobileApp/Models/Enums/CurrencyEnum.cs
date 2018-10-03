@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MobileApp.ViewModels.Common
+namespace MobileApp.Models.Enums
 {
-    public class ViewCellVM : BaseVM
+    public enum CurrencyEnum
     {
+        RUB
     }
 }

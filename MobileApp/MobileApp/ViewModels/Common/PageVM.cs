@@ -1,4 +1,4 @@
-﻿using MobileApp.Interfaces;
+﻿using MobileApp.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;

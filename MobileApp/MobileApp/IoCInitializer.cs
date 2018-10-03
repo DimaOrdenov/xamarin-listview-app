@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using Autofac.Extras.CommonServiceLocator;
 using CommonServiceLocator;
-using MobileApp.Interfaces;
 using MobileApp.Models.Enums;
 using MobileApp.Repository;
 using MobileApp.Repository.Interfaces;
 using MobileApp.Services;
+using MobileApp.Services.Interfaces;
 using MobileApp.ViewModels.Catalog;
 using System;
 using System.Collections.Generic;
@@ -33,17 +33,28 @@ namespace MobileApp
 
             _navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
 
+            InitRepositoriesWithAuth();
             InitPages();
         }
 
         private static void InitServices()
         {
             _builder.RegisterType<ViewNavigationService>().As<INavigationService>();
+            _builder.RegisterType<AuthenticationService>().As<IAuthenticationService>();
         }
 
         private static void InitRepositories()
         {
+            _builder.RegisterType<AuthenticationRepository>().As<IAuthenticationRepository>();
             _builder.RegisterType<ProductsRepository>().As<IProductsRepository>();
+        }
+
+        private static void InitRepositoriesWithAuth()
+        {
+            IAuthenticationService _authenticationService = ServiceLocator.Current.GetInstance<IAuthenticationService>();
+
+            _authenticationService.InjectAuthorization(ServiceLocator.Current.GetInstance<IProductsRepository>());
+
         }
 
         private static void InitViewModels()

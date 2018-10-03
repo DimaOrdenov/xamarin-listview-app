@@ -49,14 +49,14 @@
 
                 <Label Grid.Row="2"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
-                       Text="{Binding MainPrice}"
+                       Text="{Binding Price}"
                        TextColor="Black"
                        LineBreakMode="TailTruncation" />
 
                 <Label Grid.Row="2"
                        Grid.Column="1"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"
-                       Text="{Binding SubPrice}"
+                       Text="{Binding RetailPrice}"
                        TextColor="Black"
                        LineBreakMode="TailTruncation" />
 

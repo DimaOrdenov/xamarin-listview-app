@@ -1,9 +1,7 @@
 ﻿using Autofac;
-using MobileApp.Interfaces;
+using CommonServiceLocator;
 using MobileApp.Models.Enums;
-using MobileApp.Repository;
-using MobileApp.Repository.Interfaces;
-using MobileApp.Services;
+using MobileApp.Services.Interfaces;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,7 +23,8 @@ namespace MobileApp
             IoCInitializer.Initialize();
 
             IoCInitializer.SetMainPage(PageEnum.CatalogPage);
-            // Handle when your app starts
+
+            ServiceLocator.Current.GetInstance<IAuthenticationService>().Authenticate("", "");
         }
 
         protected override void OnSleep()

@@ -1,6 +1,6 @@
 ﻿using MobileApp.ExtendedViewControls;
-using MobileApp.Interfaces;
 using MobileApp.Models.Enums;
+using MobileApp.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

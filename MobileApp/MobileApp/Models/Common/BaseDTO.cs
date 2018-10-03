@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MobileApp.ViewModels.Common
+namespace MobileApp.Models.Common
 {
-    public class ViewCellVM : BaseVM
+    public class BaseDTO
     {
     }
 }

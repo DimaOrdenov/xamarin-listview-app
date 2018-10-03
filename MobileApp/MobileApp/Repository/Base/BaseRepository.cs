@@ -1,9 +1,11 @@
 ﻿using MobileApp.Core.Helpers;
 using MobileApp.Models.Common;
 using MobileApp.Repository.DataProvider.Http;
+using MobileApp.Repository.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -193,11 +195,6 @@ namespace MobileApp.Repository.Base
 
                 return error;
             }
-        }
-
-        public void InjectAuthorizationHeader(string token)
-        {
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
     }
 }

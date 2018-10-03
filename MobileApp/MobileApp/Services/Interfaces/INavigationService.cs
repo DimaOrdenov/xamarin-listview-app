@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace MobileApp.Interfaces
+namespace MobileApp.Services.Interfaces
 {
     public interface INavigationService
     {

@@ -11,7 +11,7 @@ using Xamarin.Forms;
 using MobileApp.Core.Helpers;
 using MobileApp.Repository;
 using MobileApp.Repository.Interfaces;
-using MobileApp.Interfaces;
+using MobileApp.Services.Interfaces;
 
 namespace MobileApp.ViewModels.Catalog
 {
@@ -81,7 +81,7 @@ namespace MobileApp.ViewModels.Catalog
                     Dictionary<string, string> filters = new Dictionary<string, string> { { "q", obj } };
 
                     CatalogItems = new ObservableCollection<CatalogItemVM>(
-                        (await _productsRepository.GetProductList(filters))?.Value?.Select(x => new CatalogItemVM() { Product = x }));
+                        (await _productsRepository.GetProductList(filters: filters))?.Value?.Select(x => new CatalogItemVM() { Product = x }));
 
                     IsLoading = false;
                 });
