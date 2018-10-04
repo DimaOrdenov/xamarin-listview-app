@@ -32,9 +32,22 @@ namespace MobileApp.Repository
             };
         }
 
-        public async Task<Result<IList<ProductDTO>>> GetProductList(string controller = "", Dictionary<string, string> filters = null)
+        public async Task<Result<IList<ProductDTO>>> GetProductList(Dictionary<string, string> filters = null)
         {
-            Result<ProductList> productGetListResult = await Get<ProductList>("", controller, parameters: filters);
+            Result<ProductList> productGetListResult = await Get<ProductList>("", parameters: filters);
+
+            return new Result<IList<ProductDTO>>
+            {
+                Error = productGetListResult?.Error,
+                Message = productGetListResult?.Message,
+                Success = productGetListResult?.Success ?? false,
+                Value = productGetListResult?.Value?.Products?.Select(x => ProductDTO.CreateFromServerResponse(x)).ToList()
+            };
+        }
+
+        public async Task<Result<IList<ProductDTO>>> SearchProductList(Dictionary<string, string> filters = null)
+        {
+            Result<ProductList> productGetListResult = await Get<ProductList>("", "search", filters);
 
             return new Result<IList<ProductDTO>>
             {

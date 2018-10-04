@@ -81,7 +81,10 @@ namespace MobileApp.ViewModels.Catalog
                     Dictionary<string, string> filters = new Dictionary<string, string> { { "q", obj } };
 
                     CatalogItems = new ObservableCollection<CatalogItemVM>(
-                        (await _productsRepository.GetProductList(filters: filters))?.Value?.Select(x => new CatalogItemVM() { Product = x }));
+                        (await _productsRepository.SearchProductList(filters: filters))?
+                            .Value?
+                            .Select(x => new CatalogItemVM() { Product = x })
+                        ?? new List<CatalogItemVM>());
 
                     IsLoading = false;
                 });

@@ -8,7 +8,6 @@
                      xmlns:templates="clr-namespace:MobileApp.Views.Catalog"
                      xmlns:vm="clr-namespace:MobileApp.ViewModels.Catalog"
                      x:Class="MobileApp.Views.Catalog.CatalogPage"
-                     Title="Каталог товаров"
                      BindingContext="{Binding CatalogViewModel, Source={StaticResource VMLocator}}"
                      SearchCommand="{Binding SearchProductCommand}">
 

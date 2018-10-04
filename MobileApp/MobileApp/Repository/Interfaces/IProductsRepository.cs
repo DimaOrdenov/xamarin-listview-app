@@ -11,6 +11,8 @@ namespace MobileApp.Repository.Interfaces
     {
         Task<Result<ProductDTO>> GetProductById(int id);
 
-        Task<Result<IList<ProductDTO>>> GetProductList(string controller = "", Dictionary<string, string> filters = null);
+        Task<Result<IList<ProductDTO>>> GetProductList(Dictionary<string, string> filters = null);
+
+        Task<Result<IList<ProductDTO>>> SearchProductList(Dictionary<string, string> filters = null);
     }
 }

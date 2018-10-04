@@ -13,8 +13,10 @@ using Android.Views.InputMethods;
 using Android.Widget;
 using MobileApp.Droid.CustomRenderers;
 using MobileApp.ExtendedViewControls.Pages;
+using Plugin.CurrentActivity;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
+using SearchView = Android.Support.V7.Widget.SearchView;
 
 [assembly: ExportRenderer(typeof(SearchPage), typeof(SearchPageRenderer))]
 namespace MobileApp.Droid.CustomRenderers
@@ -45,38 +47,71 @@ namespace MobileApp.Droid.CustomRenderers
                 _searchView.QueryTextSubmit += searchView_QueryTextSubmit;
             }
 
-            MainActivity.Toolbar?.Menu?.RemoveItem(Resource.Menu.mainmenu);
+            var mainToolbar = (CrossCurrentActivity.Current?.Activity as MainActivity)?.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            mainToolbar.Menu?.RemoveItem(Resource.Menu.mainmenu);
+
             base.Dispose(disposing);
         }
 
         private void AddSearchToToolBar()
         {
-            MainActivity.Toolbar = MainActivity.Current.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+            var search = Element as SearchPage;
+            var searchTextTemp = string.Empty;
 
-            if (MainActivity.Toolbar == null || Element == null)
+            if (search.SearchText != null)
+            {
+                searchTextTemp = search.SearchText;
+            }
+
+            var mainToolbar = (CrossCurrentActivity.Current?.Activity as MainActivity)?.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
+
+            if (mainToolbar == null || Element == null)
             {
                 return;
             }
 
-            MainActivity.Toolbar.Title = Element?.Title;
+            mainToolbar.Title = Element.Title;
+            mainToolbar.InflateMenu(Resource.Menu.mainmenu);
 
-            MainActivity.Toolbar.InflateMenu(Resource.Menu.mainmenu);
+            var actionSearch = Resource.Id.action_search;
 
-            var temp = MainActivity.Toolbar.Menu?.FindItem(Resource.Id.action_search);
+            _searchView = mainToolbar.Menu?.FindItem(Resource.Id.action_search)?.ActionView?.JavaCast<SearchView>();
 
-            _searchView = MainActivity.Toolbar.Menu?.FindItem(Resource.Id.action_search)?.ActionView?.JavaCast<SearchView>();
+            if (_searchView == null)
+            {
+                return;
+            }
 
-            //_searchView.QueryTextChange += searchView_QueryTextChange;
-            //_searchView.QueryTextSubmit += searchView_QueryTextSubmit;
-            //_searchView.SetQueryHint((Element as SearchPage)?.SearchPlaceHolderText);
-            //_searchView.SetImeOptions(ImeAction.Search);
-            //_searchView.SetInputType(InputTypes.TextVariationNormal);
-            //_searchView.SetMaxWidth(int.MaxValue);
+            //default open but has a debug make searchview hasnot cursor
+            // _searchView.OnActionViewExpanded();
+            //_searchView.SetBackgroundColor(Android.Graphics.Color.Green);
+            //_searchView.SetIconifiedByDefault(false);
+
+            //_searchView.OnActionViewExpanded();
+            _searchView.QueryTextChange += searchView_QueryTextChange;
+            _searchView.QueryTextSubmit += searchView_QueryTextSubmit;
+
+            _searchView.QueryHint = (Element as SearchPage)?.SearchPlaceHolderText;
+            _searchView.ImeOptions = (int)ImeAction.Search;
+            // donn't use this code it make the cursor miss
+            //_searchView.InputType = (int)InputTypes.TextVariationNormal;
+            _searchView.MaxWidth = int.MaxValue;
         }
 
         private void searchView_QueryTextSubmit(object sender, SearchView.QueryTextSubmitEventArgs e)
         {
+            if (e == null)
+            {
+                return;
+            }
+
             var searchPage = Element as SearchPage;
+
+            if (searchPage == null)
+            {
+                return;
+            }
+
             searchPage.SearchText = e.Query;
             searchPage.SearchCommand?.Execute(e.Query);
             e.Handled = true;
@@ -85,6 +120,12 @@ namespace MobileApp.Droid.CustomRenderers
         private void searchView_QueryTextChange(object sender, SearchView.QueryTextChangeEventArgs e)
         {
             var searchPage = Element as SearchPage;
+
+            if (searchPage == null)
+            {
+                return;
+            }
+
             searchPage.SearchText = e?.NewText;
         }
     }

@@ -40,11 +40,11 @@ namespace MobileApp.Repository.Base
         {
             var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
 
-            string requestUriString = String.Concat(_controller, "/", id);
+            string requestUriString = string.Concat(_controller, "/", id);
 
             if (!string.IsNullOrEmpty(url))
             {
-                requestUriString = String.Concat(_controller, "/", url, "/", id);
+                requestUriString = string.Concat(_controller, "/", url, "/", id);
             }
 
             var result = await _client.PutAsync(new Uri(requestUriString), content);
@@ -54,7 +54,7 @@ namespace MobileApp.Repository.Base
                 return new Result<TOutbound>
                 {
                     Success = true,
-                    Value = DeserializeJsonString<TOutbound>(await result.Content.ReadAsStringAsync())
+                    Value = HttpHelper.DeserializeJsonString<TOutbound>(await result.Content.ReadAsStringAsync())
                 };
             }
             else
@@ -74,11 +74,11 @@ namespace MobileApp.Repository.Base
         {
             var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
 
-            string requestUriString = String.Concat(_controller);
+            string requestUriString = string.Concat(_controller);
 
             if (!string.IsNullOrEmpty(url))
             {
-                requestUriString = String.Concat(_controller, "/", url);
+                requestUriString = string.Concat(_controller, "/", url);
             }
 
             var result = await _client.PostAsync(new Uri(requestUriString), content);
@@ -88,7 +88,7 @@ namespace MobileApp.Repository.Base
                 return new Result<TOutbound>
                 {
                     Success = true,
-                    Value = DeserializeJsonString<TOutbound>(await result.Content.ReadAsStringAsync())
+                    Value = HttpHelper.DeserializeJsonString<TOutbound>(await result.Content.ReadAsStringAsync())
                 };
             }
             else
@@ -122,7 +122,7 @@ namespace MobileApp.Repository.Base
                 return new Result<IList<TOutbound>>
                 {
                     Success = true,
-                    Value = DeserializeJsonString<IList<TOutbound>>(await result.Content.ReadAsStringAsync())
+                    Value = HttpHelper.DeserializeJsonString<IList<TOutbound>>(await result.Content.ReadAsStringAsync())
                 };
             }
             else
@@ -142,16 +142,21 @@ namespace MobileApp.Repository.Base
         {
             HttpResponseMessage result = null;
 
-            string requestUriString = String.Concat(_controller, "/", id, parameters?.ToQueryString() ?? "");
+            string requestUriString = _controller;
 
             if (!string.IsNullOrEmpty(url))
             {
-                requestUriString = String.Concat(_controller, "/", url, "/", id, parameters?.ToQueryString() ?? "");
+                requestUriString = string.Concat(requestUriString, "/", url);
             }
 
-            if (requestUriString?.EndsWith("/") == true)
+            if (!string.IsNullOrEmpty(id))
             {
-                requestUriString = requestUriString.Substring(0, requestUriString.Length - 1);
+                requestUriString = string.Concat(requestUriString, "/", id);
+            }
+
+            if (parameters != null)
+            {
+                requestUriString = string.Concat(requestUriString, parameters.ToQueryString());
             }
 
             try
@@ -168,7 +173,7 @@ namespace MobileApp.Repository.Base
                 return new Result<TOutbound>
                 {
                     Success = true,
-                    Value = DeserializeJsonString<TOutbound>(await result.Content.ReadAsStringAsync())
+                    Value = HttpHelper.DeserializeJsonString<TOutbound>(await result.Content.ReadAsStringAsync())
                 };
             }
             else
@@ -188,11 +193,11 @@ namespace MobileApp.Repository.Base
         {
             HttpResponseMessage result = null;
 
-            string requestUriString = String.Concat(_controller, "/", id, parameters?.ToQueryString() ?? "");
+            string requestUriString = string.Concat(_controller, "/", id, parameters?.ToQueryString() ?? "");
 
             if (!string.IsNullOrEmpty(url))
             {
-                requestUriString = String.Concat(_controller, "/", url, "/", id, parameters?.ToQueryString() ?? "");
+                requestUriString = string.Concat(_controller, "/", url, "/", id, parameters?.ToQueryString() ?? "");
             }
 
             result = await _client.DeleteAsync(new Uri(requestUriString));
@@ -217,18 +222,6 @@ namespace MobileApp.Repository.Base
             }
         }
 
-        private T DeserializeJsonString<T>(string json)
-        {
-            try
-            {
-                return JsonConvert.DeserializeObject<T>(json);
-            }
-            catch (Exception e)
-            {
-                DebugHelper.Log(e);
-
-                return default(T);
-            }
-        }
+        
     }
 }
