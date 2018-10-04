@@ -39,14 +39,14 @@ namespace MobileApp
 
         private static void InitServices()
         {
-            _builder.RegisterType<ViewNavigationService>().As<INavigationService>();
-            _builder.RegisterType<AuthenticationService>().As<IAuthenticationService>();
+            _builder.RegisterType<ViewNavigationService>().As<INavigationService>().SingleInstance();
+            _builder.RegisterType<AuthenticationService>().As<IAuthenticationService>().SingleInstance();
         }
 
         private static void InitRepositories()
         {
-            _builder.RegisterType<AuthenticationRepository>().As<IAuthenticationRepository>();
-            _builder.RegisterType<ProductsRepository>().As<IProductsRepository>();
+            _builder.RegisterType<AuthenticationRepository>().As<IAuthenticationRepository>().SingleInstance();
+            _builder.RegisterType<ProductsRepository>().As<IProductsRepository>().SingleInstance();
         }
 
         private static void InitRepositoriesWithAuth()

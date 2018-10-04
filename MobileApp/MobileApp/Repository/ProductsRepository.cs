@@ -1,4 +1,5 @@
-﻿using MobileApp.Models.Common;
+﻿using MobileApp.Core.Helpers;
+using MobileApp.Models.Common;
 using MobileApp.Models.DTO;
 using MobileApp.Models.ServerResponse;
 using MobileApp.Repository.Base;
@@ -49,7 +50,18 @@ namespace MobileApp.Repository
             //_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             //Temporary hard-coded authorization
-            _client.DefaultRequestHeaders.Add("Authorization", token);
+            try
+            {
+
+
+                _client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", token);
+
+                //_client.DefaultRequestHeaders.TryAddWithoutValidation( = new AuthenticationHeaderValue("Bearer", token);
+            }
+            catch (Exception e)
+            {
+                DebugHelper.Log(e);
+            }
         }
     }
 }

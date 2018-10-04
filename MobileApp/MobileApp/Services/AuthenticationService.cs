@@ -27,7 +27,7 @@ namespace MobileApp.Services
                 _repositories.ForEach((x) =>
                 {
                     // Temporary token for this requests
-                    x.InjectAuthorizationHeader("");
+                    x.InjectAuthorizationHeader(Config.TempAccessToken);
                 });
             }
 
