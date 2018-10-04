@@ -22,9 +22,9 @@ namespace MobileApp
         {
             IoCInitializer.Initialize();
 
-            IoCInitializer.SetMainPage(PageEnum.CatalogPage);
-
             ServiceLocator.Current.GetInstance<IAuthenticationService>().Authenticate("", "");
+
+            IoCInitializer.SetMainPage(PageEnum.CatalogPage);
         }
 
         protected override void OnSleep()

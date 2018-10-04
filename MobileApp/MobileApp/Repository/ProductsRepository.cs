@@ -15,7 +15,7 @@ namespace MobileApp.Repository
 {
     public class ProductsRepository : BaseRepository, IProductsRepository
     {
-        public ProductsRepository() : base(entity: "product")
+        public ProductsRepository() : base("product")
         {
         }
 
@@ -52,8 +52,6 @@ namespace MobileApp.Repository
             //Temporary hard-coded authorization
             try
             {
-
-
                 _client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", token);
 
                 //_client.DefaultRequestHeaders.TryAddWithoutValidation( = new AuthenticationHeaderValue("Bearer", token);

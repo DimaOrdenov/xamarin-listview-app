@@ -17,36 +17,37 @@ namespace MobileApp.Repository.Base
     {
         protected HttpClient _client = null;
 
-        public BaseRepository(string baseUrl = "default", string entity = null)
+        private string _controller = "";
+
+        public BaseRepository(string controller = "")
         {
             _client = new HttpClient(new ExtendedHttpClientHandler());
             _client.DefaultRequestHeaders.Add("If-Modified-Since", DateTime.UtcNow.ToString("r")); //Disable caching
 
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            if (baseUrl == "default")
+            if (controller?.StartsWith("/") == true)
             {
-                baseUrl = Config.BaseUrl;
+                controller = controller.Substring(1);
             }
 
-            if (baseUrl?.EndsWith("/") == true)
-            {
-                baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
-            }
+            _controller = controller;
 
-            if (entity?.StartsWith("/") == true)
-            {
-                entity = entity.Substring(1);
-            }
-
-            _client.BaseAddress = new Uri(string.Concat(baseUrl, "/", entity));
+            _client.BaseAddress = new Uri(Config.BaseUrl);
         }
 
-        protected async Task<Result<TOutbound>> Put<TInbound, TOutbound>(TInbound data, string id, string controller = "")
+        protected async Task<Result<TOutbound>> Put<TInbound, TOutbound>(TInbound data, string id, string url = "")
         {
             var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
 
-            var result = await _client.PutAsync(controller + "/" + id, content);
+            string requestUriString = String.Concat(_controller, "/", id);
+
+            if (!string.IsNullOrEmpty(url))
+            {
+                requestUriString = String.Concat(_controller, "/", url, "/", id);
+            }
+
+            var result = await _client.PutAsync(new Uri(requestUriString), content);
 
             if (result.IsSuccessStatusCode)
             {
@@ -69,11 +70,18 @@ namespace MobileApp.Repository.Base
             }
         }
 
-        protected async Task<Result<TOutbound>> Post<TInbound, TOutbound>(TInbound data, string controller = "")
+        protected async Task<Result<TOutbound>> Post<TInbound, TOutbound>(TInbound data, string url = "")
         {
             var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
 
-            var result = await _client.PostAsync(controller, content);
+            string requestUriString = String.Concat(_controller);
+
+            if (!string.IsNullOrEmpty(url))
+            {
+                requestUriString = String.Concat(_controller, "/", url);
+            }
+
+            var result = await _client.PostAsync(new Uri(requestUriString), content);
 
             if (result.IsSuccessStatusCode)
             {
@@ -96,18 +104,18 @@ namespace MobileApp.Repository.Base
             }
         }
 
-        protected async Task<Result<IList<TOutbound>>> GetList<TOutbound>(string controller = "", IDictionary<string, string> parameters = null)
+        protected async Task<Result<IList<TOutbound>>> GetList<TOutbound>(string url = "", IDictionary<string, string> parameters = null)
         {
             HttpResponseMessage result = null;
 
-            if (parameters == null)
+            string requestUriString = String.Concat(_controller, "/", parameters?.ToQueryString() ?? "");
+
+            if (!string.IsNullOrEmpty(url))
             {
-                result = await _client.GetAsync(controller);
+                requestUriString = String.Concat(_controller, "/" , url, "/", parameters?.ToQueryString() ?? "");
             }
-            else
-            {
-                result = await _client.GetAsync(controller + "/" + parameters.ToQueryString());
-            }
+
+            result = await _client.DeleteAsync(new Uri(requestUriString));
 
             if (result.IsSuccessStatusCode)
             {
@@ -130,17 +138,29 @@ namespace MobileApp.Repository.Base
             }
         }
 
-        protected async Task<Result<TOutbound>> Get<TOutbound>(string id, string controller = "", IDictionary<string, string> parameters = null)
+        protected async Task<Result<TOutbound>> Get<TOutbound>(string id, string url = "", IDictionary<string, string> parameters = null)
         {
             HttpResponseMessage result = null;
 
-            if (parameters == null)
+            string requestUriString = String.Concat(_controller, "/", id, parameters?.ToQueryString() ?? "");
+
+            if (!string.IsNullOrEmpty(url))
             {
-                result = await _client.GetAsync(controller + "/" + id);
+                requestUriString = String.Concat(_controller, "/", url, "/", id, parameters?.ToQueryString() ?? "");
             }
-            else
+
+            if (requestUriString?.EndsWith("/") == true)
             {
-                result = await _client.GetAsync(controller + "/" + id + parameters.ToQueryString());
+                requestUriString = requestUriString.Substring(0, requestUriString.Length - 1);
+            }
+
+            try
+            {
+                result = await _client.GetAsync(requestUriString);
+            }
+            catch (Exception e)
+            {
+                DebugHelper.Log(e);
             }
 
             if (result.IsSuccessStatusCode)
@@ -164,18 +184,18 @@ namespace MobileApp.Repository.Base
             }
         }
 
-        protected async Task<Result<TOutbound>> Delete<TOutbound>(string id, string controller = "", IDictionary<string, string> parameters = null)
+        protected async Task<Result<TOutbound>> Delete<TOutbound>(string id, string url = "", IDictionary<string, string> parameters = null)
         {
             HttpResponseMessage result = null;
 
-            if (parameters == null)
+            string requestUriString = String.Concat(_controller, "/", id, parameters?.ToQueryString() ?? "");
+
+            if (!string.IsNullOrEmpty(url))
             {
-                result = await _client.DeleteAsync(controller + "/" + id.ToString());
+                requestUriString = String.Concat(_controller, "/", url, "/", id, parameters?.ToQueryString() ?? "");
             }
-            else
-            {
-                result = await _client.DeleteAsync(controller + "/" + id.ToString() + parameters.ToQueryString());
-            }
+
+            result = await _client.DeleteAsync(new Uri(requestUriString));
 
             if (result.IsSuccessStatusCode)
             {

@@ -10,7 +10,7 @@ namespace MobileApp.Repository
 {
     public class AuthenticationRepository : BaseRepository, IAuthenticationRepository
     {
-        public AuthenticationRepository() : base(entity: "oauth/v2/token") { }
+        public AuthenticationRepository() : base("oauth/v2/token") { }
 
         public async Task<Result<string>> Login(string email, string password)
         {
