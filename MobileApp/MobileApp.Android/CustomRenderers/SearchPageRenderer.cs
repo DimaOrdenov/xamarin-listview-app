@@ -11,6 +11,7 @@ using Android.Text;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using MobileApp.Core.Helpers;
 using MobileApp.Droid.CustomRenderers;
 using MobileApp.ExtendedViewControls.Pages;
 using Plugin.CurrentActivity;
@@ -72,6 +73,12 @@ namespace MobileApp.Droid.CustomRenderers
 
             mainToolbar.Title = Element.Title;
             mainToolbar.InflateMenu(Resource.Menu.mainmenu);
+            mainToolbar.NavigationClick += (sender, args) =>
+            {
+                DebugHelper.Log("NavigationClick");
+                DebugHelper.Log(sender);
+                DebugHelper.Log(args);
+            };
 
             var actionSearch = Resource.Id.action_search;
 
@@ -128,6 +135,16 @@ namespace MobileApp.Droid.CustomRenderers
             }
 
             searchPage.SearchText = e?.NewText;
+        }
+
+        private class OnCloseListener : Java.Lang.Object, SearchView.IOnCloseListener
+        {
+            public bool OnClose()
+            {
+                DebugHelper.Log("SearchViewClosed");
+
+                return true;
+            }
         }
     }
 }
