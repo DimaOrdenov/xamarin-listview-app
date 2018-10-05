@@ -87,7 +87,8 @@ namespace MobileApp.Droid.CustomRenderers
             //_searchView.SetBackgroundColor(Android.Graphics.Color.Green);
             //_searchView.SetIconifiedByDefault(false);
 
-            //_searchView.OnActionViewExpanded();
+            //_searchView.SetBackgroundColor(Android.Graphics.Color.White);
+
             _searchView.QueryTextChange += searchView_QueryTextChange;
             _searchView.QueryTextSubmit += searchView_QueryTextSubmit;
 

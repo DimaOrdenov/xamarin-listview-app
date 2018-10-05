@@ -2,6 +2,7 @@
 <ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           xmlns:extVC="clr-namespace:MobileApp.ExtendedViewControls"
+          xmlns:customVC="clr-namespace:MobileApp.ExtendedViewControls.CustomViewControls"
           xmlns:vm="clr-namespace:MobileApp.ViewModels.Catalog"
           x:Class="MobileApp.Views.Catalog.CatalogItemVC"
           BindingContext="{Binding CatalogItemViewModel, Source={StaticResource VMLocator}}">
@@ -26,7 +27,7 @@
                                 Padding="8,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -41,11 +42,13 @@
                        TextColor="Black"
                        LineBreakMode="TailTruncation" />
 
-                <Label Grid.Row="1"
-                       Grid.ColumnSpan="2"
-                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
-                       Text="{Binding Description}"
-                       TextColor="Black" />
+                <customVC:MultiLineLabel Grid.Row="1"
+                                         Grid.ColumnSpan="2"
+                                         VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                                         Text="{Binding Description}"
+                                         TextColor="Black"
+                                         Lines="3"
+                                         LineBreakMode="TailTruncation" />
 
                 <Label Grid.Row="2"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
