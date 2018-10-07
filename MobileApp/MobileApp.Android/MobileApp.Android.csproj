@@ -35,7 +35,8 @@
     <EnableLLVM>false</EnableLLVM>
     <BundleAssemblies>false</BundleAssemblies>
     <AndroidSupportedAbis>armeabi-v7a</AndroidSupportedAbis>
-    <AndroidHttpClientHandlerType>System.Net.Http.HttpClientHandler</AndroidHttpClientHandlerType>
+    <AndroidHttpClientHandlerType>
+    </AndroidHttpClientHandlerType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -82,6 +83,7 @@
   <ItemGroup>
     <Compile Include="CustomRenderers\MultiLineLabelRenderer.cs" />
     <Compile Include="CustomRenderers\SearchPageRenderer.cs" />
+    <Compile Include="Handlers\SecuredImageLoaderSourceHandler.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

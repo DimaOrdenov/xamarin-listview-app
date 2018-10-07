@@ -1,4 +1,5 @@
-﻿using MobileApp.Models.Common;
+﻿using MobileApp.ExtendedViewControls;
+using MobileApp.Models.Common;
 using MobileApp.Models.ServerResponse;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace MobileApp.Models.DTO
 {
     public class ProductDTO : BaseDTO
     {
-        public ImageSource ImageSource { get; set; }
+        public ExtendedImageSource ImageSource { get; set; }
 
         public string Title { get; set; }
 
@@ -30,7 +31,20 @@ namespace MobileApp.Models.DTO
 
             if (serverProduct.Images?.Count > 0)
             {
-                productDTO.ImageSource = serverProduct.Images[0].ImageSource;
+                ServerResponse.Image serverImage = serverProduct.Images[0];
+
+                if (string.IsNullOrEmpty(serverImage.Url) || string.IsNullOrEmpty(serverImage.Title))
+                {
+                    productDTO.ImageSource = Xamarin.Forms.ImageSource.FromFile("placeholder.png") as ExtendedImageSource;
+                }
+                else
+                {
+                    productDTO.ImageSource = ExtendedImageSource.FromSecureUri(new Uri(string.Concat(serverImage.Url, serverImage.Title)));
+                }
+            }
+            else
+            {
+                productDTO.ImageSource = Xamarin.Forms.ImageSource.FromFile("placeholder.png") as ExtendedImageSource;
             }
 
             productDTO.Title = serverProduct.Title;

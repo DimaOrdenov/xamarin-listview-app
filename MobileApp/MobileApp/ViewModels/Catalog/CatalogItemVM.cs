@@ -1,4 +1,5 @@
-﻿using MobileApp.Models.DTO;
+﻿using MobileApp.ExtendedViewControls;
+using MobileApp.Models.DTO;
 using MobileApp.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace MobileApp.ViewModels.Catalog
             }
         }
 
-        public ImageSource Image
+        public ExtendedImageSource Image
         {
             get
             {
