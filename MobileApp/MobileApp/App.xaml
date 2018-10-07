@@ -5,9 +5,13 @@
              x:Class="MobileApp.App">
     <Application.Resources>
 
+
         <ResourceDictionary>
 
+            <!-- ViewModel Locator -->
             <vm:ViewModelLocator x:Key="VMLocator" />
+
+            <Color x:Key="light_gray">#cccccc</Color>
 
         </ResourceDictionary>
         

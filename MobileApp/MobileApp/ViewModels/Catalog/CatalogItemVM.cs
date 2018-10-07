@@ -23,19 +23,30 @@ namespace MobileApp.ViewModels.Catalog
             {
                 _product = value;
                 OnPropertyChanged();
-                OnPropertyChanged("Image");
+
+                OnPropertyChanged("ImageSource");
+                OnPropertyChanged("ImageBackgroundColor");
                 OnPropertyChanged("Title");
-                OnPropertyChanged("Description");
+                OnPropertyChanged("GabaritInfo");
+                OnPropertyChanged("ShortDescription");
                 OnPropertyChanged("Price");
                 OnPropertyChanged("RetailPrice");
             }
         }
 
-        public ExtendedImageSource Image
+        public ExtendedImageSource ImageSource
         {
             get
             {
                 return _product?.ImageSource;
+            }
+        }
+
+        public Color ImageBackgroundColor
+        {
+            get
+            {
+                return ImageSource != null ? Color.Transparent : (Color)App.Current.Resources["light_gray"];
             }
         }
 
@@ -44,9 +55,31 @@ namespace MobileApp.ViewModels.Catalog
             get { return _product?.Title; }
         }
 
-        public string Description
+        public FormattedString GabaritInfo
         {
-            get { return _product?.Description; }
+            get
+            {
+                return new FormattedString
+                {
+                    Spans =
+                    {
+                        new Span
+                        {
+                            Text = "Габариты: "
+                        },
+                        new Span
+                        {
+                            Text = _product?.GabaritInfo,
+                            ForegroundColor = (Color)App.Current.Resources["light_gray"]
+                        }
+                    }
+                };
+            }
+        }
+
+        public string ShortDescription
+        {
+            get { return _product?.ShortDescription; }
         }
 
         public string Price

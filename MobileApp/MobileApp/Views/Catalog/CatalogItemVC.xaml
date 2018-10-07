@@ -3,13 +3,14 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           xmlns:extVC="clr-namespace:MobileApp.ExtendedViewControls"
           xmlns:customVC="clr-namespace:MobileApp.ExtendedViewControls.CustomViewControls"
+          xmlns:customEffects="clr-namespace:MobileApp.ViewControlEffects"
           xmlns:vm="clr-namespace:MobileApp.ViewModels.Catalog"
           x:Class="MobileApp.Views.Catalog.CatalogItemVC"
           BindingContext="{Binding CatalogItemViewModel, Source={StaticResource VMLocator}}">
 
     <ViewCell.View>
 
-        <extVC:ExtendedGrid Padding="16,8">
+        <extVC:ExtendedGrid Padding="2,8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -18,37 +19,60 @@
                 <ColumnDefinition Width="6*" />
             </Grid.ColumnDefinitions>
 
-            <Image Source="{Binding Image}"
+            <Image Source="{Binding ImageSource}"
                    Aspect="AspectFit"
-                   BackgroundColor="Gray"
+                   BackgroundColor="{Binding ImageBackgroundColor}"
                    />
 
             <extVC:ExtendedGrid Grid.Column="1"
-                                Padding="8,0,0,0">
+                                Padding="2,0,0,0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="0"
-                       Grid.ColumnSpan="2"
-                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
-                       Text="{Binding Title}"
-                       TextColor="Black"
-                       LineBreakMode="TailTruncation" />
+                <extVC:ExtendedGrid Grid.Column="1"
+                                Padding="2,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="24" />
+                    </Grid.ColumnDefinitions>
 
-                <customVC:MultiLineLabel Grid.Row="1"
+                    <Label Grid.Row="0"
+                           VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                           Text="{Binding Title}"
+                           TextColor="Black" />
+
+                    <Image Source="ic_check_circle_black_24dp.png"
+                           VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                           Grid.Column="1">
+                        <Image.Effects>
+                            <customEffects:TintImageEffect TintColor="Green" />
+                        </Image.Effects>
+                    </Image>
+
+                </extVC:ExtendedGrid>
+
+                <Label Grid.Row="1"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                       FormattedText="{Binding GabaritInfo}"
+                       TextColor="Black" />
+                
+                <!--<customVC:MultiLineLabel Grid.Row="1"
                                          Grid.ColumnSpan="2"
                                          VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
-                                         Text="{Binding Description}"
+                                         Text="{Binding ShortDescription}"
                                          TextColor="Black"
                                          Lines="3"
-                                         LineBreakMode="TailTruncation" />
+                                         LineBreakMode="TailTruncation" />-->
 
                 <Label Grid.Row="2"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"

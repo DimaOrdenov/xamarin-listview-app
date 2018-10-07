@@ -14,11 +14,21 @@ namespace MobileApp.Models.DTO
 
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        public string ShortDescription { get; set; }
 
         public Money Price { get; set; }
 
         public Money RetailPrice { get; set; }
+
+        public bool? IsAvailable { get; set; }
+
+        public string GabaritInfo { get; set; }
+
+        public string SupplierInfo { get; set; }
+
+        public int? Delivery_time { get; set; }
+
+        public string Option { get; set; }
 
         public static ProductDTO CreateFromServerResponse(Product serverProduct)
         {
@@ -48,12 +58,14 @@ namespace MobileApp.Models.DTO
             }
 
             productDTO.Title = serverProduct.Title;
-
-            productDTO.Description = serverProduct.Short_description;
-
+            productDTO.ShortDescription = serverProduct.Short_description;
             productDTO.Price = new Money(serverProduct.Price ?? 0);
-
             productDTO.RetailPrice = new Money(serverProduct.Retail_price ?? 0);
+            productDTO.IsAvailable = serverProduct.Is_available;
+            productDTO.GabaritInfo = serverProduct.GabaritInfo;
+            productDTO.SupplierInfo = serverProduct.SupplierInfo;
+            productDTO.Delivery_time = serverProduct.Delivery_time;
+            productDTO.Option = serverProduct.Option;
 
             return productDTO;
         }
