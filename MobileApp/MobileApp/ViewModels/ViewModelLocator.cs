@@ -10,7 +10,6 @@ namespace MobileApp.ViewModels
     {
         static ViewModelLocator()
         {
-            Core.Helpers.DebugHelper.Log("Initialized VM locator");
         }
 
         public CatalogVM CatalogViewModel

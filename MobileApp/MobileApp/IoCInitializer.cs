@@ -41,6 +41,7 @@ namespace MobileApp
         {
             _builder.RegisterType<ViewNavigationService>().As<INavigationService>().SingleInstance();
             _builder.RegisterType<AuthenticationService>().As<IAuthenticationService>().SingleInstance();
+            _builder.RegisterType<DialogService>().As<IDialogService>().SingleInstance();
         }
 
         private static void InitRepositories()

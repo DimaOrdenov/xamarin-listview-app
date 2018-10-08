@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="6*" />
             </Grid.ColumnDefinitions>
 
-            <Image Source="{Binding ImageSource}"
+            <Image Source="{Binding ProductImageSource}"
                    Aspect="AspectFit"
                    BackgroundColor="{Binding ImageBackgroundColor}"
                    />
@@ -30,14 +30,16 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <extVC:ExtendedGrid Grid.Column="1"
-                                Padding="2,0,0,0">
+                <extVC:ExtendedGrid Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
@@ -51,7 +53,7 @@
                            Text="{Binding Title}"
                            TextColor="Black" />
 
-                    <Image Source="ic_check_circle_black_24dp.png"
+                    <Image Source="{Binding ProductImageAvailableSource}"
                            VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
                            Grid.Column="1">
                         <Image.Effects>
@@ -62,8 +64,10 @@
                 </extVC:ExtendedGrid>
 
                 <Label Grid.Row="1"
+                       Grid.ColumnSpan="2"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
                        FormattedText="{Binding GabaritInfo}"
+                       FontSize="12"
                        TextColor="Black" />
                 
                 <!--<customVC:MultiLineLabel Grid.Row="1"
@@ -75,16 +79,44 @@
                                          LineBreakMode="TailTruncation" />-->
 
                 <Label Grid.Row="2"
+                       Grid.ColumnSpan="2"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                       FormattedText="{Binding SupplierInfo}"
+                       FontSize="12"
+                       TextColor="Black" />
+
+                <Label Grid.Row="3"
+                       Grid.ColumnSpan="2"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                       FormattedText="{Binding DeliveryDate}"
+                       FontSize="12"
+                       TextColor="Black" />
+
+                <Label Grid.Row="4"
+                       Grid.ColumnSpan="2"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                       Text="Опции товара"
+                       FontSize="12"
+                       TextColor="{StaticResource action_orange}">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenProductOptionsCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Label Grid.Row="5"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
                        Text="{Binding Price}"
                        TextColor="Black"
+                       FontSize="12"
                        LineBreakMode="TailTruncation" />
 
-                <Label Grid.Row="2"
+                <Label Grid.Row="5"
                        Grid.Column="1"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"
                        Text="{Binding RetailPrice}"
                        TextColor="Black"
+                       FontSize="12"
                        LineBreakMode="TailTruncation" />
 
             </extVC:ExtendedGrid>

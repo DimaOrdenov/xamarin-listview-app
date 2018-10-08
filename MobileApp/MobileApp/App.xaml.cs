@@ -2,6 +2,7 @@
 using CommonServiceLocator;
 using MobileApp.Models.Enums;
 using MobileApp.Services.Interfaces;
+using MobileApp.ViewModels;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,6 +12,8 @@ namespace MobileApp
 {
     public partial class App : Application
     {
+        public static ViewModelLocator VMLocator { get; } = new ViewModelLocator();
+
         public App()
         {
             InitializeComponent();

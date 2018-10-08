@@ -26,7 +26,7 @@ namespace MobileApp.Models.DTO
 
         public string SupplierInfo { get; set; }
 
-        public int? Delivery_time { get; set; }
+        public int? DeliveryTime { get; set; }
 
         public string Option { get; set; }
 
@@ -64,7 +64,7 @@ namespace MobileApp.Models.DTO
             productDTO.IsAvailable = serverProduct.Is_available;
             productDTO.GabaritInfo = serverProduct.GabaritInfo;
             productDTO.SupplierInfo = serverProduct.SupplierInfo;
-            productDTO.Delivery_time = serverProduct.Delivery_time;
+            productDTO.DeliveryTime = serverProduct.Delivery_time;
             productDTO.Option = serverProduct.Option;
 
             return productDTO;

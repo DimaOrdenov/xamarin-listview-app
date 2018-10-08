@@ -83,9 +83,16 @@ namespace MobileApp.ViewModels.Catalog
                     CatalogItems = new ObservableCollection<CatalogItemVM>(
                         (await _productsRepository.SearchProductList(filters: filters))?
                             .Value?
-                            .Select(x => new CatalogItemVM() { Product = x })
+                            .Select(x =>
+                            {
+                                var vm = App.VMLocator.CatalogItemViewModel;
+                                vm.Product = x;
+
+                                return vm;
+                            })
                         ?? new List<CatalogItemVM>());
 
+                    
                     IsLoading = false;
                 });
             }

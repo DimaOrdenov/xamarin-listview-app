@@ -1,9 +1,12 @@
-﻿using MobileApp.ExtendedViewControls;
+﻿using CommonServiceLocator;
+using MobileApp.ExtendedViewControls;
 using MobileApp.Models.DTO;
+using MobileApp.Services.Interfaces;
 using MobileApp.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MobileApp.ViewModels.Catalog
@@ -16,6 +19,17 @@ namespace MobileApp.ViewModels.Catalog
         {
         }
 
+        public ICommand OpenProductOptionsCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await ServiceLocator.Current.GetInstance<IDialogService>().ShowMessage("", _product?.Option);
+                });
+            }
+        }
+
         public ProductDTO Product
         {
             get { return _product; }
@@ -24,17 +38,21 @@ namespace MobileApp.ViewModels.Catalog
                 _product = value;
                 OnPropertyChanged();
 
-                OnPropertyChanged("ImageSource");
+                OnPropertyChanged("ProductImageSource");
                 OnPropertyChanged("ImageBackgroundColor");
                 OnPropertyChanged("Title");
                 OnPropertyChanged("GabaritInfo");
+                OnPropertyChanged("SupplierInfo");
+                OnPropertyChanged("DeliveryDate");
                 OnPropertyChanged("ShortDescription");
                 OnPropertyChanged("Price");
                 OnPropertyChanged("RetailPrice");
+                OnPropertyChanged("ProductImageAvailableSource");
+                OnPropertyChanged("ProductImageAvailableTintColor");
             }
         }
 
-        public ExtendedImageSource ImageSource
+        public ExtendedImageSource ProductImageSource
         {
             get
             {
@@ -46,7 +64,7 @@ namespace MobileApp.ViewModels.Catalog
         {
             get
             {
-                return ImageSource != null ? Color.Transparent : (Color)App.Current.Resources["light_gray"];
+                return ProductImageSource != null ? Color.Transparent : (Color)App.Current.Resources["light_gray"];
             }
         }
 
@@ -77,6 +95,50 @@ namespace MobileApp.ViewModels.Catalog
             }
         }
 
+        public FormattedString SupplierInfo
+        {
+            get
+            {
+                return new FormattedString
+                {
+                    Spans =
+                    {
+                        new Span
+                        {
+                            Text = "Поставщик: "
+                        },
+                        new Span
+                        {
+                            Text = _product?.SupplierInfo,
+                            ForegroundColor = (Color)App.Current.Resources["light_gray"]
+                        }
+                    }
+                };
+            }
+        }
+
+        public FormattedString DeliveryDate
+        {
+            get
+            {
+                return new FormattedString
+                {
+                    Spans =
+                    {
+                        new Span
+                        {
+                            Text = "Срок доставки: "
+                        },
+                        new Span
+                        {
+                            Text = (_product?.DeliveryTime ?? 0).ToString(),
+                            ForegroundColor = (Color)App.Current.Resources["light_gray"]
+                        }
+                    }
+                };
+            }
+        }
+
         public string ShortDescription
         {
             get { return _product?.ShortDescription; }
@@ -90,6 +152,36 @@ namespace MobileApp.ViewModels.Catalog
         public string RetailPrice
         {
             get { return _product?.RetailPrice?.FormattedString; }
+        }
+
+        public ImageSource ProductImageAvailableSource
+        {
+            get
+            {
+                if (_product?.IsAvailable == true)
+                {
+                    return ImageSource.FromFile("ic_check_circle_black_24dp.png");
+                }
+                else
+                {
+                    return ImageSource.FromFile("ic_highlight_off_black_24dp.png");
+                }
+            }
+        }
+
+        public Color ProductImageAvailableTintColor
+        {
+            get
+            {
+                if (_product?.IsAvailable == true)
+                {
+                    return Color.Green;
+                }
+                else
+                {
+                    return Color.Red;
+                }
+            }
         }
     }
 }
