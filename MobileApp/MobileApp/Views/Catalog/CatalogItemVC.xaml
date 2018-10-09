@@ -3,7 +3,7 @@
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
           xmlns:extVC="clr-namespace:MobileApp.ExtendedViewControls"
           xmlns:customVC="clr-namespace:MobileApp.ExtendedViewControls.CustomViewControls"
-          xmlns:customEffects="clr-namespace:MobileApp.ViewControlEffects"
+          xmlns:customNC="clr-namespace:MobileApp.ExtendedViewControls.CustomNugetControls"
           xmlns:vm="clr-namespace:MobileApp.ViewModels.Catalog"
           x:Class="MobileApp.Views.Catalog.CatalogItemVC"
           BindingContext="{Binding CatalogItemViewModel, Source={StaticResource VMLocator}}">
@@ -19,14 +19,21 @@
                 <ColumnDefinition Width="6*" />
             </Grid.ColumnDefinitions>
 
-            <Image Source="{Binding ProductImageSource}"
+            <!--<Image Source="{Binding ProductImageSource}"
                    Aspect="AspectFit"
                    BackgroundColor="{Binding ImageBackgroundColor}"
-                   />
+                   />-->
+
+            <customNC:ExtendedCachedImage Source="{Binding ProductImageSource}"
+                                          Aspect="AspectFit"
+                                          ErrorPlaceholder="placeholder.png"
+                                          LoadingPlaceholder="placeholder.png" />
 
             <extVC:ExtendedGrid Grid.Column="1"
+                                RowSpacing="4"
                                 Padding="2,0,0,0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -39,7 +46,8 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <extVC:ExtendedGrid Grid.ColumnSpan="2">
+                <extVC:ExtendedGrid Grid.ColumnSpan="2"
+                                    ColumnSpacing="4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
@@ -53,13 +61,18 @@
                            Text="{Binding Title}"
                            TextColor="Black" />
 
-                    <Image Source="{Binding ProductImageAvailableSource}"
+                    <!--<Image Source="{Binding ProductImageAvailableSource}"
                            VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
                            Grid.Column="1">
                         <Image.Effects>
                             <customEffects:TintImageEffect TintColor="Green" />
                         </Image.Effects>
-                    </Image>
+                    </Image>-->
+
+                    <customNC:ExtendedCachedImage Source="{Binding ProductImageAvailableSource}"
+                                                  VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                                                  Grid.Column="1"
+                                                  TintColor="{Binding ProductImageAvailableTintColor}"/>
 
                 </extVC:ExtendedGrid>
 
@@ -77,13 +90,46 @@
                                          TextColor="Black"
                                          Lines="3"
                                          LineBreakMode="TailTruncation" />-->
-
-                <Label Grid.Row="2"
+                
+                <!--<Label Grid.Row="2"
                        Grid.ColumnSpan="2"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
                        FormattedText="{Binding SupplierInfo}"
                        FontSize="12"
-                       TextColor="Black" />
+                       TextColor="Black">
+
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SupplierInfoTapCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>-->
+
+                <extVC:ExtendedGrid Grid.Row="2"
+                                    Grid.ColumnSpan="2"
+                                    ColumnSpacing="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SupplierInfoTapCommand}" />
+                    </Grid.GestureRecognizers>
+
+                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"
+                           Text="Поставщик:"
+                           FontSize="12"
+                           TextColor="{Binding SupplierInfoTitleColor}" />
+                    
+                    <Label Grid.Column="1"
+                           VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"
+                           Text="{Binding SupplierInfo}"
+                           FontSize="12"
+                           TextColor="{StaticResource blue_gray}" />
+
+                </extVC:ExtendedGrid>
 
                 <Label Grid.Row="3"
                        Grid.ColumnSpan="2"
@@ -97,23 +143,38 @@
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
                        Text="Опции товара"
                        FontSize="12"
-                       TextColor="{StaticResource action_orange}">
+                       TextColor="{StaticResource main_action}">
 
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenProductOptionsCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
-
+                
                 <Label Grid.Row="5"
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
-                       Text="{Binding Price}"
+                       Text="Закупка"
                        TextColor="Black"
                        FontSize="12"
                        LineBreakMode="TailTruncation" />
 
                 <Label Grid.Row="5"
                        Grid.Column="1"
-                       VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                       Text="Продажа"
+                       TextColor="Black"
+                       FontSize="12"
+                       LineBreakMode="TailTruncation" />
+                
+                <Label Grid.Row="6"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                       Text="{Binding Price}"
+                       TextColor="Black"
+                       FontSize="12"
+                       LineBreakMode="TailTruncation" />
+
+                <Label Grid.Row="6"
+                       Grid.Column="1"
+                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
                        Text="{Binding RetailPrice}"
                        TextColor="Black"
                        FontSize="12"

@@ -10,7 +10,7 @@ namespace MobileApp.Models.DTO
 {
     public class ProductDTO : BaseDTO
     {
-        public ExtendedImageSource ImageSource { get; set; }
+        public ImageSource ImageSource { get; set; }
 
         public string Title { get; set; }
 
@@ -45,16 +45,22 @@ namespace MobileApp.Models.DTO
 
                 if (string.IsNullOrEmpty(serverImage.Url) || string.IsNullOrEmpty(serverImage.Title))
                 {
-                    productDTO.ImageSource = Xamarin.Forms.ImageSource.FromFile("placeholder.png") as ExtendedImageSource;
+                    //productDTO.ImageSource = Xamarin.Forms.ImageSource.FromFile("placeholder.png") as ExtendedImageSource;
+
+                    productDTO.ImageSource = Xamarin.Forms.ImageSource.FromFile("placeholder.png");
                 }
                 else
                 {
-                    productDTO.ImageSource = ExtendedImageSource.FromSecureUri(new Uri(string.Concat(serverImage.Url, serverImage.Title)));
+                    //productDTO.ImageSource = ExtendedImageSource.FromSecureUri(new Uri(string.Concat(serverImage.Url, serverImage.Title)));
+
+                    productDTO.ImageSource = ImageSource.FromUri(new Uri(string.Concat(serverImage.Url, serverImage.Title)));
                 }
             }
             else
             {
-                productDTO.ImageSource = Xamarin.Forms.ImageSource.FromFile("placeholder.png") as ExtendedImageSource;
+                //productDTO.ImageSource = Xamarin.Forms.ImageSource.FromFile("placeholder.png") as ExtendedImageSource;
+
+                productDTO.ImageSource = Xamarin.Forms.ImageSource.FromFile("placeholder.png");
             }
 
             productDTO.Title = serverProduct.Title;

@@ -28,6 +28,8 @@ namespace MobileApp.Droid
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+
             // Finally LoadApplication
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());

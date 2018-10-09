@@ -11,8 +11,10 @@
             <!-- ViewModel Locator -->
             <vm:ViewModelLocator x:Key="VMLocator" />
 
-            <Color x:Key="light_gray">#cccccc</Color>
-            <Color x:Key="action_orange">#ff940a</Color>
+            <Color x:Key="blue_gray">#888aa3</Color>
+            <Color x:Key="main_color">#344955</Color>
+            <Color x:Key="main_color_dark">#232F34</Color>
+            <Color x:Key="main_action">#f9aa33</Color>
 
         </ResourceDictionary>
         
