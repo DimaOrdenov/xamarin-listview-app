@@ -23,7 +23,7 @@ namespace MobileApp.ViewModels.Catalog
         private ObservableCollection<CatalogItemVM> _catalogItemsLoaded { get; set; }
         private string _searchProductText { get; set; }
 
-        public CatalogVM(INavigationService navigationService, IProductsRepository productsRepository) : base(navigationService)
+        public CatalogVM(INavigationService navigationService, IDialogService dialogService, IProductsRepository productsRepository) : base(navigationService, dialogService)
         {
             _productsRepository = productsRepository;
         }
@@ -121,7 +121,7 @@ namespace MobileApp.ViewModels.Catalog
                 CatalogItems = _catalogItemsLoaded;
 
                 IsLoading = false;
-            });
+            }, CancellationToken);
 
             // Simulate loading
             //await Task.Delay(3000).ContinueWith(async (t) =>
