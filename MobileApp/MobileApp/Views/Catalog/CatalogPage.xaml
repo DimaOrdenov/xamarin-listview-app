@@ -25,17 +25,18 @@
                                          SearchCommandParameter="{Binding SearchProductText}"
                                          />-->
 
-                <extVC:ExtendedListView x:Name="CatalogListView"
+                <extVC:LoadMoreListView x:Name="CatalogListView"
                                         SeparatorVisibility="Default"
                                         HasUnevenRows="True"
-                                        ItemsSource="{Binding CatalogItems}">
+                                        ItemsSource="{Binding CatalogItems}"
+                                        LoadMoreCommand="{Binding LoadMoreCommand}">
 
-                    <extVC:ExtendedListView.ItemTemplate>
+                    <extVC:LoadMoreListView.ItemTemplate>
                         <DataTemplate>
                             <templates:CatalogItemVC />
                         </DataTemplate>
-                    </extVC:ExtendedListView.ItemTemplate>
-                </extVC:ExtendedListView>
+                    </extVC:LoadMoreListView.ItemTemplate>
+                </extVC:LoadMoreListView>
                 
             </StackLayout>
 

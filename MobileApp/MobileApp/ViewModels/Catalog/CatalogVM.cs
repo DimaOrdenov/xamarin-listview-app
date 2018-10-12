@@ -15,7 +15,7 @@ using MobileApp.Services.Interfaces;
 
 namespace MobileApp.ViewModels.Catalog
 {
-    public class CatalogVM : PageVM
+    public class CatalogVM : PaginationPageVM
     {
         private IProductsRepository _productsRepository { get; }
 
@@ -23,7 +23,8 @@ namespace MobileApp.ViewModels.Catalog
         private ObservableCollection<CatalogItemVM> _catalogItemsLoaded { get; set; }
         private string _searchProductText { get; set; }
 
-        public CatalogVM(INavigationService navigationService, IDialogService dialogService, IProductsRepository productsRepository) : base(navigationService, dialogService)
+        public CatalogVM(INavigationService navigationService, IDialogService dialogService, IProductsRepository productsRepository) :
+            base(navigationService, dialogService)
         {
             _productsRepository = productsRepository;
         }
@@ -61,23 +62,6 @@ namespace MobileApp.ViewModels.Catalog
 
                     DebugHelper.Log(obj);
 
-                    //if (string.IsNullOrEmpty(obj))
-                    //{
-                    //    CatalogItems = _catalogItemsLoaded.Clone();
-                    //}
-                    //else
-                    //{
-                    //    CatalogItems = new ObservableCollection<CatalogItemVM>(_catalogItemsLoaded?.Where(product =>
-                    //        product.Product?.Title?.ToLower()?.Contains(obj) == true ||
-                    //        product.Product?.Description?.ToLower()?.Contains(obj) == true)
-                    //        ?? new List<CatalogItemVM>());
-                    //}
-
-                    //CatalogItems = new ObservableCollection<CatalogItemVM>(_catalogItemsLoaded?.Where(product =>
-                    //        product.Product?.Title?.ToLower()?.Contains(obj) == true ||
-                    //        product.Product?.Description?.ToLower()?.Contains(obj) == true)
-                    //        ?? new List<CatalogItemVM>());
-
                     Dictionary<string, string> filters = new Dictionary<string, string> { { "q", obj } };
 
                     CatalogItems = new ObservableCollection<CatalogItemVM>(
@@ -94,6 +78,21 @@ namespace MobileApp.ViewModels.Catalog
 
                     
                     IsLoading = false;
+                });
+            }
+        }
+
+        public ICommand LoadMoreCommand
+        {
+            get
+            {
+                return new Command(() =>
+                {
+                    IsMoreLoading = true;
+
+
+
+                    IsMoreLoading = false;
                 });
             }
         }
@@ -115,6 +114,12 @@ namespace MobileApp.ViewModels.Catalog
             // await loading ...
             await Task.Run(async () =>
             {
+                Dictionary<string, string> requestParameters = new Dictionary<string, string>
+                {
+                    { "page", "1" },
+                    { "limit", "10" }
+                };
+
                 _catalogItemsLoaded = new ObservableCollection<CatalogItemVM>(
                         (await _productsRepository.GetProductList()).Value.Select(x => new CatalogItemVM() { Product = x }));
 
@@ -122,37 +127,6 @@ namespace MobileApp.ViewModels.Catalog
 
                 IsLoading = false;
             }, CancellationToken);
-
-            // Simulate loading
-            //await Task.Delay(3000).ContinueWith(async (t) =>
-            //{
-            //    Product mockProduct1 = new Product
-            //    {
-            //        ImageUri = new Uri("https://www.howarth-timber.co.uk/assets/img/placeholders/product--preview.png"),
-            //        Title = "Название продукта",
-            //        Description = "Описание продукта. Описание продукта. Описание продукта. Описание продукта. Описание продукта. ",
-            //        MainPrice = "10000 р.",
-            //        SubPrice = "8000 р."
-            //    };
-
-            //    Product mockProduct2 = new Product
-            //    {
-            //        ImageUri = new Uri("https://cdn.pcpartpicker.com/static/forever/images/product/50a1c28ab7d844fe91f03602bba66217.256p.jpg"),
-            //        Title = "Название продукта",
-            //        Description = "Описание продукта. Описание продукта. Описание продукта. Описание продукта. Описание продукта. ",
-            //        MainPrice = "10000 р.",
-            //        SubPrice = "8000 р."
-            //    };
-
-            //    _catalogItemsLoaded = new ObservableCollection<CatalogItemVM>
-            //    {
-            //        new CatalogItemVM { Product = mockProduct1 },
-            //    };
-
-            //    CatalogItems = _catalogItemsLoaded;
-
-            //    IsLoading = false;
-            //});
         }
     }
 }

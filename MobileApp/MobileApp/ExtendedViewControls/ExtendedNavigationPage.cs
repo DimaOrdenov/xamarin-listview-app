@@ -38,7 +38,6 @@ namespace MobileApp.ExtendedViewControls
                         e.Page.ToolbarItems.Clear();
                     }
                 }
-
             };
         }
     }

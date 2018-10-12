@@ -9,10 +9,6 @@ namespace MobileApp.ExtendedViewControls
     {
         public ExtendedListView() : base(ListViewCachingStrategy.RecycleElement)
         {
-            HasUnevenRows = true;
-
-            SeparatorVisibility = SeparatorVisibility.None;
-
             ItemSelected += (sender, e) =>
             {
                 (sender as ExtendedListView).SelectedItem = null;

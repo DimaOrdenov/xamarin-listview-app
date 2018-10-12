@@ -3,6 +3,7 @@ using MobileApp.Models.Common;
 using MobileApp.Repository.DataProvider.Http;
 using MobileApp.Repository.Interfaces;
 using Newtonsoft.Json;
+using Plugin.DeviceInfo;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -23,6 +24,8 @@ namespace MobileApp.Repository.Base
         {
             _client = new HttpClient(new ExtendedHttpClientHandler());
             _client.DefaultRequestHeaders.Add("If-Modified-Since", DateTime.UtcNow.ToString("r")); //Disable caching
+            _client.DefaultRequestHeaders.Add("User-Agent",
+                String.Format("Xamarin-Mobile-App {0} {1}/{2}", CrossDeviceInfo.Current.Platform.ToString(), CrossDeviceInfo.Current.AppVersion, CrossDeviceInfo.Current.AppBuild));
 
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
