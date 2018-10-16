@@ -40,7 +40,7 @@ namespace MobileApp.ExtendedViewControls
                         HeightRequest = 15,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         HorizontalOptions = LayoutOptions.FillAndExpand,
-                        Color = (Color)Application.Current.Resources["main_action"]
+                        Color = AppColor.MainAction
                     }
                 }
             };

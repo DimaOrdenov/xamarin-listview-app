@@ -27,6 +27,9 @@ namespace MobileApp.ViewModels.Catalog
             base(navigationService, dialogService)
         {
             _productsRepository = productsRepository;
+
+            Page = 1;
+            Limit = 10;
         }
 
         public ObservableCollection<CatalogItemVM> CatalogItems
@@ -86,11 +89,22 @@ namespace MobileApp.ViewModels.Catalog
         {
             get
             {
-                return new Command(() =>
+                return new Command(async () =>
                 {
                     IsMoreLoading = true;
 
+                    Dictionary<string, string> requestParameters = new Dictionary<string, string>
+                    {
+                        { "page", "1" },
+                        { "limit", "10" }
+                    };
 
+                    _catalogItemsLoaded = new ObservableCollection<CatalogItemVM>(
+                            (await _productsRepository.GetProductList()).Value.Select(x => new CatalogItemVM() { Product = x }));
+
+                    CatalogItems = _catalogItemsLoaded;
+
+                    IsLoading = false;
 
                     IsMoreLoading = false;
                 });
@@ -109,21 +123,24 @@ namespace MobileApp.ViewModels.Catalog
 
         private async Task LoadData()
         {
-            IsLoading = true;
-
-            // await loading ...
             await Task.Run(async () =>
             {
+                IsLoading = true;
+
                 Dictionary<string, string> requestParameters = new Dictionary<string, string>
                 {
-                    { "page", "1" },
+                    { "page", Page.ToString() },
                     { "limit", "10" }
                 };
+
+                
 
                 _catalogItemsLoaded = new ObservableCollection<CatalogItemVM>(
                         (await _productsRepository.GetProductList()).Value.Select(x => new CatalogItemVM() { Product = x }));
 
                 CatalogItems = _catalogItemsLoaded;
+
+                
 
                 IsLoading = false;
             }, CancellationToken);

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:local="clr-namespace:MobileApp"
           xmlns:extVC="clr-namespace:MobileApp.ExtendedViewControls"
           xmlns:customVC="clr-namespace:MobileApp.ExtendedViewControls.CustomViewControls"
           xmlns:customNC="clr-namespace:MobileApp.ExtendedViewControls.CustomNugetControls"
@@ -94,7 +95,7 @@
                            VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"
                            Text="{Binding SupplierInfo}"
                            FontSize="12"
-                           TextColor="{StaticResource blue_gray}" />
+                           TextColor="{x:Static local:AppColor.BlueGray}" />
 
                 </extVC:ExtendedGrid>
 
@@ -110,7 +111,7 @@
                        VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
                        Text="Опции товара"
                        FontSize="12"
-                       TextColor="{StaticResource main_action}">
+                       TextColor="{x:Static local:AppColor.MainAction}">
 
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenProductOptionsCommand}" />
