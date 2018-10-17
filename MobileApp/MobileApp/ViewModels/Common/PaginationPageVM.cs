@@ -7,9 +7,9 @@ namespace MobileApp.ViewModels.Common
 {
     public class PaginationPageVM : PageVM
     {
-        private int _page = 1;
+        private int _page;
 
-        private int _limit = 10;
+        private int _limit;
 
         private bool _isMoreLoading;
 

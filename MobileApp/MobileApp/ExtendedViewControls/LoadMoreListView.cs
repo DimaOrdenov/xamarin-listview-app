@@ -16,13 +16,15 @@ namespace MobileApp.ExtendedViewControls
             {
                 IList items = ItemsSource as IList;
 
-                if (items?.Count == 0 && args.Item != items[items.Count - 1] &&
-                    LoadMoreCommand == null && !LoadMoreCommand.CanExecute(null))
+                if (items?.Count == 0 && LoadMoreCommand == null && !LoadMoreCommand.CanExecute(null))
                 {
                     return;
                 }
 
-                LoadMoreCommand.Execute(null);
+                if (args.Item == items[items.Count - 1])
+                {
+                    LoadMoreCommand.Execute(null);
+                }
             };
 
             Footer = new StackLayout

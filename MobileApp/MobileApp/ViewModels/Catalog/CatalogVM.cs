@@ -12,6 +12,8 @@ using MobileApp.Core.Helpers;
 using MobileApp.Repository;
 using MobileApp.Repository.Interfaces;
 using MobileApp.Services.Interfaces;
+using Xamarin.Forms.Internals;
+using System.Collections.Specialized;
 
 namespace MobileApp.ViewModels.Catalog
 {
@@ -27,9 +29,11 @@ namespace MobileApp.ViewModels.Catalog
             base(navigationService, dialogService)
         {
             _productsRepository = productsRepository;
+        }
 
-            Page = 1;
-            Limit = 10;
+        private void CatalogItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(CatalogItems));
         }
 
         public ObservableCollection<CatalogItemVM> CatalogItems
@@ -85,40 +89,27 @@ namespace MobileApp.ViewModels.Catalog
             }
         }
 
-        public ICommand LoadMoreCommand
-        {
-            get
-            {
-                return new Command(async () =>
-                {
-                    IsMoreLoading = true;
-
-                    Dictionary<string, string> requestParameters = new Dictionary<string, string>
-                    {
-                        { "page", "1" },
-                        { "limit", "10" }
-                    };
-
-                    _catalogItemsLoaded = new ObservableCollection<CatalogItemVM>(
-                            (await _productsRepository.GetProductList()).Value.Select(x => new CatalogItemVM() { Product = x }));
-
-                    CatalogItems = _catalogItemsLoaded;
-
-                    IsLoading = false;
-
-                    IsMoreLoading = false;
-                });
-            }
-        }
-
         public override void OnAppearing()
         {
             base.OnAppearing();
 
+            Page = 1;
+            Limit = 10;
+
             LoadData().ContinueWith((task) =>
             {
+                CatalogItems.CollectionChanged += CatalogItems_CollectionChanged;
+                Page++;
+
                 IsLoading = false;
             });
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            CatalogItems.CollectionChanged -= CatalogItems_CollectionChanged;
         }
 
         private async Task LoadData()
@@ -130,20 +121,44 @@ namespace MobileApp.ViewModels.Catalog
                 Dictionary<string, string> requestParameters = new Dictionary<string, string>
                 {
                     { "page", Page.ToString() },
-                    { "limit", "10" }
+                    { "limit", Limit.ToString() }
                 };
 
-                
-
                 _catalogItemsLoaded = new ObservableCollection<CatalogItemVM>(
-                        (await _productsRepository.GetProductList()).Value.Select(x => new CatalogItemVM() { Product = x }));
+                        (await _productsRepository.GetProductList(requestParameters)).Value.Select(x => new CatalogItemVM() { Product = x }));
 
                 CatalogItems = _catalogItemsLoaded;
 
-                
-
                 IsLoading = false;
             }, CancellationToken);
+        }
+
+        public ICommand LoadMoreCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    IsMoreLoading = true;
+
+                    Dictionary<string, string> requestParameters = new Dictionary<string, string>
+                    {
+                        { "page", Page.ToString() },
+                        { "limit", Limit.ToString() }
+                    };
+
+                    _catalogItemsLoaded = new ObservableCollection<CatalogItemVM>(
+                            (await _productsRepository.GetProductList(requestParameters)).Value.Select(x => new CatalogItemVM() { Product = x }));
+
+                    _catalogItemsLoaded.ForEach(x => CatalogItems.Add(x));
+
+                    Page++;
+
+                    IsLoading = false;
+
+                    IsMoreLoading = false;
+                });
+            }
         }
     }
 }
